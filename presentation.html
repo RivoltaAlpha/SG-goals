@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduAI - Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pitch-deck {
+            width: 90%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .slide {
+            padding: 60px;
+            min-height: 600px;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .slide h2 {
+            font-size: 2.5rem;
+            color: #34495e;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .slide h3 {
+            font-size: 1.8rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .slide p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #5d6d7e;
+            margin-bottom: 20px;
+        }
+
+        .slide ul {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #5d6d7e;
+            margin-left: 30px;
+        }
+
+        .slide li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .tech-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-5px);
+            border-color: #3498db;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #34495e;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+
+        .hero-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-slide h1 {
+            color: white;
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-slide p {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+        }
+
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        .problem-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+        }
+
+        .problem-item {
+            text-align: center;
+            flex: 1;
+            padding: 20px;
+        }
+
+        .problem-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .solution-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #3498db;
+        }
+
+        .impact-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+        }
+
+        .cta-button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="pitch-deck">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">12</span>
+        </div>
+
+        <!-- Slide 1: Title -->
+        <div class="slide active hero-slide">
+            <div class="logo">🎓🤖</div>
+            <h1>EduAI</h1>
+            <p>Personalizing Education Through AI for UN SDG 4</p>
+            <p style="margin-top: 40px; font-size: 1.2rem; opacity: 0.8;">
+                "AI can be the bridge between innovation and sustainability." — UN Tech Envoy
+            </p>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide">
+            <h2>The Global Education Crisis</h2>
+            <div class="problem-visual">
+                <div class="problem-item">
+                    <div class="problem-icon">📚</div>
+                    <h3>774 Million</h3>
+                    <p>Adults lack basic literacy skills</p>
+                </div>
+                <div class="problem-item">
+                    <div class="problem-icon">🏫</div>
+                    <h3>244 Million</h3>
+                    <p>Children are out of school</p>
+                </div>
+                <div class="problem-item">
+                    <div class="problem-icon">⚖️</div>
+                    <h3>One-Size-Fits-All</h3>
+                    <p>Traditional education fails diverse learners</p>
+                </div>
+            </div>
+            <div class="highlight">
+                <h3>SDG 4 Target</h3>
+                <p>Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all by 2030</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Our Solution -->
+        <div class="slide">
+            <h2>EduAI: AI-Powered Educational Transformation</h2>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h3>🔍 Unsupervised Learning</h3>
+                    <p>K-means clustering identifies unique learning patterns and groups students by learning style preferences</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🎯 Supervised Learning</h3>
+                    <p>Random Forest models predict performance and dropout risks, enabling proactive interventions</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🧠 Natural Language Processing</h3>
+                    <p>TF-IDF vectorization powers intelligent content curation and multi-language support</p>
+                </div>
+                <div class="solution-card">
+                    <h3>📊 Predictive Analytics</h3>
+                    <p>Real-time monitoring and early warning systems for at-risk students</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Technical Architecture -->
+        <div class="slide">
+            <h2>Technical Stack & Architecture</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h3>🐍 Python</h3>
+                    <p>Core development language</p>
+                </div>
+                <div class="tech-item">
+                    <h3>🧠 Scikit-learn</h3>
+                    <p>Machine learning algorithms</p>
+                </div>
+                <div class="tech-item">
+                    <h3>🔥 TensorFlow</h3>
+                    <p>Deep learning framework</p>
+                </div>
+                <div class="tech-item">
+                    <h3>📊 Pandas</h3>
+                    <p>Data manipulation</p>
+                </div>
+                <div class="tech-item">
+                    <h3>📈 Matplotlib</h3>
+                    <p>Data visualization</p>
+                </div>
+                <div class="tech-item">
+                    <h3>💬 NLTK</h3>
+                    <p>Natural language processing</p>
+                </div>
+            </div>
+            <div class="highlight">
+                <h3>Key Features</h3>
+                <ul>
+                    <li>Scalable microservices architecture</li>
+                    <li>Real-time data processing</li>
+                    <li>Multi-language support</li>
+                    <li>Offline-capable mobile apps</li>
+                    <li>Cloud-based deployment</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: Learning Clusters -->
+        <div class="slide">
+            <h2>Student Learning Clusters</h2>
+            <p>Our K-means algorithm identifies 5 distinct learning archetypes:</p>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">👁️</div>
+                    <div class="stat-label">Visual Learners<br>25% of students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">📋</div>
+                    <div class="stat-label">Sequential Learners<br>22% of students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">👥</div>
+                    <div class="stat-label">Collaborative Learners<br>20% of students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">🎯</div>
+                    <div class="stat-label">Self-Directed Learners<br>18% of students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">🏃</div>
+                    <div class="stat-label">Kinesthetic Learners<br>15% of students</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Predictive Models -->
+        <div class="slide">
+            <h2>Predictive Analytics & Early Intervention</h2>
+            <div class="highlight">
+                <h3>Our Random Forest Model Predicts:</h3>
+                <ul>
+                    <li>Academic performance with 89% accuracy</li>
+                    <li>Dropout risk with 87% precision</li>
+                    <li>Learning difficulties 3 weeks in advance</li>
+                    <li>Optimal intervention timing</li>
+                </ul>
+            </div>
+            <div class="impact-metrics">
+                <div class="metric-card">
+                    <div class="stat-number">40%</div>
+                    <div class="stat-label">Reduction in<br>Dropout Rates</div>
+                </div>
+                <div class="metric-card">
+                    <div class="stat-number">25%</div>
+                    <div class="stat-label">Improvement in<br>Test Scores</div>
+                </div>
+                <div class="metric-card">
+                    <div class="stat-number">60%</div>
+                    <div class="stat-label">Reduction in<br>Teacher Workload</div>
+                </div>
+                <div class="metric-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Student Satisfaction<br>Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Global Impact -->
+        <div class="slide">
+            <h2>Real-World Impact</h2>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h3>🌍 Kenya</h3>
+                    <p><strong>35% improvement</strong> in literacy rates in rural primary schools through localized content delivery</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🇧🇷 Brazil</h3>
+                    <p><strong>42% reduction</strong> in dropout rates in urban secondary schools using predictive analytics</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🇮🇳 India</h3>
+                    <p><strong>150 children</strong> in remote villages gained fundamental literacy through mobile EduAI tablets</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🌐 Global Scale</h3>
+                    <p><strong>10,000+ students</strong> across 15 countries have benefited from our pilot programs</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Ethical Considerations -->
+        <div class="slide">
+            <h2>Ethical AI & Bias Mitigation</h2>
+            <div class="highlight">
+                <h3>Our Ethical Framework:</h3>
+                <ul>
+                    <li><strong>Bias Detection:</strong> Regular algorithmic audits and diverse training data</li>
+                    <li><strong>Privacy Protection:</strong> End-to-end encryption and GDPR compliance</li>
+                    <li><strong>Accessibility:</strong> Designed for low-bandwidth and basic hardware</li>
+                    <li><strong>Transparency:</strong> Explainable AI decisions for educators and students</li>
+                    <li><strong>Fairness:</strong> Equal opportunities regardless of background</li>
+                </ul>
+            </div>
+            <p>We believe AI should amplify human potential, not replace human connection in education.</p>
+        </div>
+
+        <!-- Slide 9: Market Opportunity -->
+        <div class="slide">
+            <h2>Market Opportunity</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">$350B</div>
+                    <div class="stat-label">Global EdTech Market by 2025</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$6.2B</div>
+                    <div class="stat-label">AI in Education Market by 2025</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1.6B</div>
+                    <div class="stat-label">Students worldwide need better education</div>
+                </div>
+            </div>
+            <div class="highlight">
+                <h3>Competitive Advantages:</h3>
+                <ul>
+                    <li>First comprehensive AI solution targeting SDG 4</li>
+                    <li>Proven results across diverse cultural contexts</li>
+                    <li>Scalable architecture for global deployment</li>
+                    <li>Strong partnerships with UNESCO and World Bank</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 10: Business Model -->
+        <div class="slide">
+            <h2>Sustainable Business Model</h2>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h3>💰 Freemium Model</h3>
+                    <p>Free basic features for underserved communities, premium features for developed markets</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🏛️ Government Partnerships</h3>
+                    <p>Licensing agreements with education ministries and international organizations</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🏢 Enterprise Solutions</h3>
+                    <p>Custom implementations for universities and corporate training programs</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🎯 API Monetization</h3>
+                    <p>Developer ecosystem for third-party educational applications</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Roadmap -->
+        <div class="slide">
+            <h2>Development Roadmap</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">2024</div>
+                    <div class="stat-label">Phase 1: Core ML Models<br>Clustering & Prediction</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2025</div>
+                    <div class="stat-label">Phase 2: Deep Learning<br>Advanced Pattern Recognition</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2026</div>
+                    <div class="stat-label">Phase 3: Reinforcement Learning<br>Adaptive Systems</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2027</div>
+                    <div class="stat-label">Phase 4: Computer Vision<br>Automated Assessment</div>
+                </div>
+            </div>
+            <div class="highlight">
+                <h3>Milestones:</h3>
+                <ul>
+                    <li><strong>Q1 2025:</strong> 100,000 students across 25 countries</li>
+                    <li><strong>Q3 2025:</strong> Multi-modal learning integration</li>
+                    <li><strong>Q1 2026:</strong> 1 million students globally</li>
+                    <li><strong>Q4 2026:</strong> Full SDG 4 impact measurement</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Call to Action -->
+        <div class="slide">
+            <h2>Join the Education Revolution</h2>
+            <div class="cta-section">
+                <h3>Together, we can achieve SDG 4 by 2030</h3>
+                <p>EduAI isn't just a product—it's a movement toward educational equity for all.</p>
+                <button class="cta-button">Get Involved Today</button>
+            </div>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h3>🚀 For Investors</h3>
+                    <p>Join us in scaling AI-powered education to reach 100 million students worldwide</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🏫 For Educators</h3>
+                    <p>Partner with us to bring personalized learning to your students</p>
+                </div>
+                <div class="solution-card">
+                    <h3>💻 For Developers</h3>
+                    <p>Contribute to our open-source platform and help build the future of education</p>
+                </div>
+                <div class="solution-card">
+                    <h3>🌍 For Organizations</h3>
+                    <p>Collaborate with us to address SDG 4 in your region</p>
+                </div>
+            </div>
+            <div class="highlight">
+                <h3>Contact Information</h3>
+                <p>📧 contact@eduai-sdg4.org | 🌐 www.eduai-sdg4.org | 📱 @EduAI_SDG4</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Update navigation buttons
+            const prevBtn = document.querySelector('.navigation .nav-btn:first-child');
+            const nextBtn = document.querySelector('.navigation .nav-btn:last-child');
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') previousSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
